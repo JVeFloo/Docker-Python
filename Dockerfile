@@ -1,20 +1,17 @@
-# Imagen base ligera de Python
 FROM python:3.12-slim
 
-# Carpeta de trabajo dentro del contenedor
+# Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copiar primero requirements para aprovechar la cache de Docker
+# Instala las dependencias primero para aprovechar la cache de capas de Docker
 COPY requirements.txt .
-
-# Instalar dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el resto del proyecto
-COPY . .
+# Copia los archivos de la aplicación al contenedor
+COPY . /app
 
-# Puerto que expone el contenedor
-EXPOSE 5001
+# Expone el puerto en el que se ejecutará la aplicación
+EXPOSE 5000
 
-# Comando que arranca la app
+# Comando para ejecutar la aplicación
 CMD ["python", "app.py"]
